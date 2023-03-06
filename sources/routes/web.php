@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admins\AdminController;
+use App\Http\Controllers\Admins\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,8 +15,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return response()->json([
-        'hahahahaa'
-    ]);
+// Home
+Route::group(['controller' => HomeController::class], function () {
+    Route::get('/', 'index')->name('home');
+});
+// Home
+Route::group(['controller' => AdminController::class, 'prefix' => 'admins', 'as' => 'admins.'], function () {
+    Route::get('/', 'index')->name('index');
+});
+Route::group(['middleware' => ['auth']], function () {
 });
